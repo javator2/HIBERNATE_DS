@@ -21,7 +21,7 @@ public class AuthorDao implements DaoInterface<Author> {
         return currentSession;
     }
 
-    public synchronized Session openCurrentSession() {
+    public Session openCurrentSession() {
         if (currentSession == null) {
             currentSession = HibernateUtils.getSession();
             currentTransaction = currentSession.beginTransaction();
@@ -29,7 +29,7 @@ public class AuthorDao implements DaoInterface<Author> {
         return currentSession;
     }
 
-    public synchronized void closeCurrentSession() {
+    public void closeCurrentSession() {
         currentTransaction.commit();
     }
 

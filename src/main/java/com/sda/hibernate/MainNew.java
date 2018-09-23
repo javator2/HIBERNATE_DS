@@ -14,35 +14,37 @@ import java.util.Set;
 public class MainNew {
     public static void main(String[] args) {
 
-//        CategoryService categoryService = new CategoryService();
-//        AuthorService authorService = new AuthorService();
-//
-//        Category category = new Category();
-//        category.setName("Nowa_uwaga_na_duplikaty");
-//        categoryService.save(category);
-//
-//        Author author = new Author();
-//        author.setName("Nowy autor");
-//
-//        authorService.save(author);
-//
-//        BookService bookService = new BookService();
-//
-//        Author author1 = new Author();
-//        author1.setName("Autor");
-//        author1.setLastName("Nazwisko");
-//
-//        Set<Author> authorSet = new HashSet<>();
-//        authorSet.add(author1);
-//
-//        Category category1 = new Category();
-//        category1.setName("TESTOWA");
-//
-//        Book s = new Book();
-//        s.setCategory(category1);
-//        s.setAuthorSet(authorSet);
-//        s.setTitle("Tytul");
-//        bookService.save(s);
+        CategoryService categoryService = new CategoryService();
+        AuthorService authorService = new AuthorService();
+
+        Category category = new Category();
+        category.setName("ZDUPLIKWANA2");
+        categoryService.save(category);
+
+        Author author = new Author();
+        author.setName("STARY2");
+        author.setLastName("AUTOR2");
+
+        authorService.save(author);
+
+        BookService bookService = new BookService();
+
+        Author author1 = new Author();
+        author1.setName("JESZCZE2");
+        author1.setLastName("STARSZY2");
+
+        Set<Author> authorSet = new HashSet<>();
+        authorSet.add(author);
+        authorSet.add(author1);
+
+        Category category1 = new Category();
+        category1.setName("TESTOWA2");
+
+        Book s = new Book();
+        s.setCategory(category1);
+        s.setAuthorSet(authorSet);
+        s.setTitle("NOWY TYTUŁ");
+        bookService.save(s);
 
 //        CategoryService categoryService = new CategoryService();
 //        Category category = new Category();
@@ -55,9 +57,9 @@ public class MainNew {
 //        author.setLastName("2");
 //        authorService.save(author);
 
-        CategoryService categoryService = new CategoryService();
-        System.out.println(categoryService.findAll());
-        System.out.println(categoryService.findById(19).getName());
+//        CategoryService categoryService = new CategoryService();
+//        System.out.println(categoryService.findAll());
+//        System.out.println(categoryService.findById(19).getName());
 
         HibernateUtils.closeConnection();
     }
