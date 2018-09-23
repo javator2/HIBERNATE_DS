@@ -9,8 +9,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,7 +60,7 @@ public class Main {
         List<Book> bookList = session.createQuery("FROM " + Book.class.getName()).list();
         for (Book b : bookList) {
             System.out.println("Tytuł: " + b.getTitle());
-            for (Author a: b.getAuthorSet()){
+            for (Author a : b.getAuthorSet()) {
                 System.out.println("Authors: " + a.getName() + " " + a.getLastName());
             }
         }
@@ -77,7 +75,7 @@ public class Main {
 //        tx.begin();
 //        session.delete(book3);
 //        tx.commit();
-        
+
         session.close();
     }
 }
