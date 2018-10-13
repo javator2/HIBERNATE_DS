@@ -1,81 +1,66 @@
 package com.sda.hibernate;
 
+import com.sda.hibernate.config.HibernateUtils;
 import com.sda.hibernate.entity.Author;
 import com.sda.hibernate.entity.Book;
 import com.sda.hibernate.entity.Category;
-import com.sda.hibernate.entity.Publisher;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import com.sda.hibernate.service.AuthorService;
+import com.sda.hibernate.service.BookService;
+import com.sda.hibernate.service.CategoryService;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Main {
-
-    private static final SessionFactory sessionFactory;
-
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-            sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-
-    public static Session getSession() {
-        return sessionFactory.openSession();
-    }
-
     public static void main(String[] args) {
 
-        Category category = new Category("Książki_śmieszne");
-        Publisher publisher = new Publisher("Egmont", "al. Jerozolimskie", "Kraków");
+        CategoryService categoryService = new CategoryService();
+        AuthorService authorService = new AuthorService();
 
-        Set<Author> authors = new HashSet<Author>();
-        authors.add(new Author("Damian", "Stefański"));
-        authors.add(new Author("Michał", "Marchwiński"));
-        authors.add(new Author("Łukasz", "Ogan"));
+        Category category = new Category();
+        category.setName("ZDUPLIKWANA2");
+        categoryService.save(category);
 
-        Book book = new Book("Najgłupsze", "546-234");
-        book.setAuthorSet(authors);
-        book.setCategory(category);
-        book.setPublisher(publisher);
-        Book book1 = new Book("Moja", "2-2-2-2");
-        Book book2 = new Book("Twoja", "3-3-3-3");
+        Author author = new Author();
+        author.setName("STARY2");
+        author.setLastName("AUTOR2");
 
-        Session session = getSession();
-        Transaction tx = session.getTransaction();
+        authorService.save(author);
 
-        tx.begin();
-        session.save(book);
-//        session.save(book1);
-//        session.save(book2);
-        tx.commit();
+        BookService bookService = new BookService();
 
-        List<Book> bookList = session.createQuery("FROM " + Book.class.getName()).list();
-        for (Book b : bookList) {
-            System.out.println("Tytuł: " + b.getTitle());
-            for (Author a : b.getAuthorSet()) {
-                System.out.println("Authors: " + a.getName() + " " + a.getLastName());
-            }
-        }
+        Author author1 = new Author();
+        author1.setName("JESZCZE2");
+        author1.setLastName("STARSZY2");
 
-//        CriteriaBuilder builder = session.getCriteriaBuilder();
-//        CriteriaQuery<Book> bookCriteriaQuery = builder.createQuery(Book.class);
-//        for (Book b : bookCriteriaQuery) {
-//            System.out.println(b.getAuthor());
-//        }
-//        Book book3 = session.byId(Book.class).getReference(3);
-//        System.out.println(book3);
-//        tx.begin();
-//        session.delete(book3);
-//        tx.commit();
+        Set<Author> authorSet = new HashSet<>();
+        authorSet.add(author);
+        authorSet.add(author1);
 
-        session.close();
+        Category category1 = new Category();
+        category1.setName("TESTOWA2");
+
+        Book s = new Book();
+        s.setCategory(category1);
+        s.setAuthorSet(authorSet);
+        s.setTitle("NOWY TYTUŁ");
+        bookService.save(s);
+
+//        CategoryService categoryService = new CategoryService();
+//        Category category = new Category();
+//        category.setName("NowaSiódma");
+//        categoryService.save(category);
+//
+//        AuthorService authorService = new AuthorService();
+//        Author author = new Author();
+//        author.setName("1");
+//        author.setLastName("2");
+//        authorService.save(author);
+
+//        CategoryService categoryService = new CategoryService();
+//        System.out.println(categoryService.findAll());
+//        System.out.println(categoryService.findById(19).getName());
+
+        HibernateUtils.closeConnection();
     }
 }
